@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use JWTAuth;
@@ -47,7 +46,6 @@ class UserController extends Controller
 
     public function uploadAvatarUsers(Request $request, $id)
     {
-        try {
             $user = $this->ConfereID($id);
             if ($user) {
                 $usuario = User::find($id);
@@ -62,9 +60,6 @@ class UserController extends Controller
                 return response()->json($usuario);
             }
             return response()->json(['success' => false, 'message' => 'Usuário não autorizado'], 401);
-        } catch (Exception $e) {
-            return response()->json($e);
-        }
     }
 
     public function show($id)
