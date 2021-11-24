@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use JWTAuth;
@@ -46,20 +47,24 @@ class UserController extends Controller
 
     public function uploadAvatarUsers(Request $request, $id)
     {
-        $user = $this->ConfereID($id);
-        if ($user) {
-            $usuario = User::find($id);
-            if ($usuario->path_avatar !== null) {
-                Storage::disk('public')->delete($usuario->path_avatar);
-            }
-            $file_name = "avatares/$usuario->type/" . 'image' . time() . '.png';
-            $usuario->path_avatar = $file_name;
+        try {
+            $user = $this->ConfereID($id);
+            if ($user) {
+                $usuario = User::find($id);
+                if ($usuario->path_avatar !== null) {
+                    Storage::disk('public')->delete($usuario->path_avatar);
+                }
+                $file_name = "avatares/$usuario->type/" . 'image' . time() . '.png';
+                $usuario->path_avatar = $file_name;
 
-            Storage::disk("public")->put($file_name, $request->path_avatar);
-            $usuario->save();
-            return response()->json($usuario);
+                Storage::disk("public")->put($file_name, $request->path_avatar);
+                $usuario->save();
+                return response()->json($usuario);
+            }
+            return response()->json(['success' => false, 'message' => 'Usuário não autorizado'], 401);
+        } catch (Exception $e) {
+            return response()->json($e);
         }
-        return response()->json(['success' => false, 'message' => 'Usuário não autorizado'], 401);
     }
 
     public function show($id)
