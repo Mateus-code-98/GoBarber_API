@@ -55,7 +55,7 @@ class UserController extends Controller
             $file_name = "avatares/$usuario->type/" . 'image' . time() . '.png';
             $usuario->path_avatar = $file_name;
 
-            Storage::disk("public")->put($file_name, base64_decode($request->path_avatar));
+            Storage::disk("public")->put($file_name, $request->path_avatar);
             $usuario->save();
             return response()->json($usuario);
         }

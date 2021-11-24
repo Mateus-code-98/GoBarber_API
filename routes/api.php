@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
-Route::get('botao','FeedbackController@clicouBotao');
+// Route::get('botao','FeedbackController@clicouBotao');
 
 Route::get('barbearias'                   , 'UserController@showBarberShops');
 Route::get('barbearias/{id}'              , 'UserController@showOnlyBarberShop');
